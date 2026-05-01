@@ -23,7 +23,12 @@ import os
 from pathlib import Path
 
 # Page configuration MUST be the first Streamlit command
-st.set_page_config(page_title="Kumasi District YoKA Registration System", page_icon="⛪", layout="wide")
+st.set_page_config(
+    page_title="Kumasi District YoKA Registration System", 
+    page_icon="⛪", 
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # ==================== ENCRYPTION SETUP ====================
 def get_encryption_key():
@@ -274,14 +279,14 @@ def init_rbac_database():
     # Insert default system settings
     default_settings = [
         ('system_name', 'Kumasi District YoKA Registration System', 'text', 'System display name'),
-        ('primary_color', '#1E3A8A', 'color', 'Primary theme color'),
-        ('secondary_color', '#3B82F6', 'color', 'Secondary theme color'),
-        ('accent_color', '#F59E0B', 'color', 'Accent theme color'),
-        ('background_color', '#FFFFFF', 'color', 'Background color'),
-        ('sidebar_color', '#1E3A8A', 'color', 'Sidebar color'),
-        ('font_family', 'System Default', 'text', 'Font family'),
+        ('primary_color', '#667eea', 'color', 'Primary theme color'),
+        ('secondary_color', '#764ba2', 'color', 'Secondary theme color'),
+        ('accent_color', '#f093fb', 'color', 'Accent theme color'),
+        ('background_color', '#f8f9fa', 'color', 'Background color'),
+        ('sidebar_color', '#0f0c29', 'color', 'Sidebar color'),
+        ('font_family', 'Inter', 'text', 'Font family'),
         ('font_size', '16px', 'text', 'Base font size'),
-        ('card_border_radius', '10', 'text', 'Card border radius'),
+        ('card_border_radius', '12', 'text', 'Card border radius'),
         ('logo_url', '', 'text', 'URL to system logo'),
         ('favicon', '⛪', 'text', 'Favicon emoji or URL'),
         ('footer_text', '© 2024 Kumasi District YoKA. All Rights Reserved.', 'text', 'Footer text'),
@@ -323,54 +328,80 @@ def apply_custom_styling():
         else:
             settings = {}
         
-        font_family = settings.get('font_family', 'System Default')
+        font_family = settings.get('font_family', 'Inter')
         font_size = settings.get('font_size', '16px')
-        primary_color = settings.get('primary_color', '#1E3A8A')
-        secondary_color = settings.get('secondary_color', '#3B82F6')
-        background_color = settings.get('background_color', '#FFFFFF')
-        sidebar_color = settings.get('sidebar_color', '#1E3A8A')
-        card_border_radius = settings.get('card_border_radius', '10')
-        
-        font_family_css = ""
-        if font_family != "System Default":
-            font_family_css = f"font-family: '{font_family}', sans-serif;"
+        primary_color = settings.get('primary_color', '#667eea')
+        secondary_color = settings.get('secondary_color', '#764ba2')
+        background_color = settings.get('background_color', '#f8f9fa')
+        sidebar_color = settings.get('sidebar_color', '#0f0c29')
+        card_border_radius = settings.get('card_border_radius', '12')
         
         st.markdown(f"""
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
             
-            .stApp {{
-                background-color: {background_color};
+            * {{
+                font-family: '{font_family}', 'Inter', sans-serif;
             }}
             
-            body, .stApp, .stMarkdown, .stTextInput, .stSelectbox, .stTextArea {{
-                {font_family_css}
-                font-size: {font_size};
+            .main .block-container {{
+                padding-top: 1rem;
+                padding-bottom: 0rem;
+                max-width: 1400px;
+            }}
+            
+            #MainMenu {{visibility: hidden;}}
+            footer {{visibility: hidden;}}
+            header {{visibility: hidden;}}
+            
+            ::-webkit-scrollbar {{
+                width: 8px;
+                height: 8px;
+            }}
+            ::-webkit-scrollbar-track {{
+                background: #f1f1f1;
+                border-radius: 10px;
+            }}
+            ::-webkit-scrollbar-thumb {{
+                background: linear-gradient(135deg, {primary_color} 0%, {secondary_color} 100%);
+                border-radius: 10px;
+            }}
+            
+            [data-testid="stSidebar"] {{
+                background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
             }}
             
             .stButton > button {{
-                background-color: {primary_color};
+                background: linear-gradient(135deg, {primary_color} 0%, {secondary_color} 100%);
                 color: white;
-                border-radius: 8px;
                 border: none;
-                padding: 0.5rem 1rem;
-                font-weight: 500;
+                border-radius: 10px;
+                padding: 0.6rem 1.2rem;
+                font-weight: 600;
                 transition: all 0.3s ease;
+                width: 100%;
             }}
             
             .stButton > button:hover {{
-                background-color: {secondary_color};
                 transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                box-shadow: 0 5px 15px rgba(102,126,234,0.4);
             }}
             
-            h1, h2, h3, h4, h5, h6 {{
-                color: {primary_color};
-                font-weight: 600;
+            .stForm {{
+                background: white;
+                padding: 1.5rem;
+                border-radius: {card_border_radius}px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             }}
             
-            .stSidebar .stMarkdown, .stSidebar .stTextInput, .stSidebar label {{
-                color: white;
+            .stTextInput > div > div > input,
+            .stTextArea > div > div > textarea,
+            .stSelectbox > div > div > select,
+            .stDateInput > div > div > input {{
+                border-radius: 10px;
+                border: 2px solid #e0e0e0;
+                transition: all 0.3s ease;
             }}
             
             .stDataFrame {{
@@ -378,48 +409,22 @@ def apply_custom_styling():
                 overflow: hidden;
             }}
             
-            .success-box {{
-                background-color: #d4edda;
-                padding: 20px;
-                border-radius: {card_border_radius}px;
-                border-left: 5px solid #28a745;
-                margin: 10px 0;
+            .badge {{
+                display: inline-block;
+                padding: 4px 8px;
+                border-radius: 12px;
+                font-size: 12px;
+                font-weight: 600;
             }}
             
-            .info-box {{
-                background-color: #d1ecf1;
-                padding: 15px;
-                border-radius: {card_border_radius}px;
-                border-left: 5px solid #17a2b8;
-                margin: 10px 0;
+            .badge-success {{
+                background: #d4edda;
+                color: #155724;
             }}
             
-            .warning-box {{
-                background-color: #fff3cd;
-                padding: 15px;
-                border-radius: {card_border_radius}px;
-                border-left: 5px solid #ffc107;
-                margin: 10px 0;
-            }}
-            
-            .metric-card {{
-                background-color: white;
-                padding: 15px;
-                border-radius: {card_border_radius}px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                text-align: center;
-            }}
-            
-            .metric-value {{
-                font-size: 28px;
-                font-weight: bold;
-                color: {primary_color};
-            }}
-            
-            .metric-label {{
-                font-size: 14px;
-                color: #666;
-                margin-top: 5px;
+            .badge-warning {{
+                background: #fff3cd;
+                color: #856404;
             }}
         </style>
         """, unsafe_allow_html=True)
@@ -507,7 +512,7 @@ def send_user_credentials_email(email, username, password, full_name, role):
         <style>
             body {{ font-family: Arial, sans-serif; }}
             .container {{ padding: 20px; background-color: #f4f4f4; }}
-            .header {{ background-color: #1E3A8A; color: white; padding: 10px; text-align: center; }}
+            .header {{ background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 10px; text-align: center; }}
             .content {{ background-color: white; padding: 20px; margin: 20px 0; }}
             .credentials {{ background-color: #f0f0f0; padding: 15px; margin: 10px 0; }}
             .footer {{ text-align: center; font-size: 12px; color: #666; }}
@@ -1032,18 +1037,19 @@ def delete_bulk_members(member_ids, deleted_by):
 
 def export_to_excel(df, include_photos=False):
     """Export DataFrame to Excel with formatting"""
+    from openpyxl.styles import Font, PatternFill, Alignment
+    from openpyxl.utils import get_column_letter
+    
     output = BytesIO()
     with pd.ExcelWriter(output, engine='openpyxl') as writer:
         export_df = df.drop(columns=['profile_picture'], errors='ignore')
         export_df.to_excel(writer, sheet_name='Members', index=False)
         
-        from openpyxl.styles import Font, PatternFill, Alignment
-        
         workbook = writer.book
         worksheet = writer.sheets['Members']
         
         header_font = Font(bold=True, color="FFFFFF")
-        header_fill = PatternFill(start_color="1E3A8A", end_color="1E3A8A", fill_type="solid")
+        header_fill = PatternFill(start_color="667eea", end_color="667eea", fill_type="solid")
         
         for cell in worksheet[1]:
             cell.font = header_font
@@ -1202,7 +1208,7 @@ def import_from_excel(file, target_branch, created_by):
     
     return success_count, errors
 
-# ==================== ADVANCED EXPORT UI ====================
+# ==================== UI FUNCTIONS ====================
 
 def advanced_export_ui():
     """Export data with multiple format options"""
@@ -1269,8 +1275,6 @@ def advanced_export_ui():
                          'members', len(export_df), f"Exported {len(export_df)} records in {export_format}")
     else:
         st.info("No data to export")
-
-# ==================== IMPORT DATA UI ====================
 
 def import_data_ui():
     """Import data with role-based access"""
@@ -1361,8 +1365,6 @@ def import_data_ui():
             if st.button("❌ Cancel", use_container_width=True):
                 st.rerun()
 
-# ==================== EMAIL SETTINGS UI ====================
-
 def email_settings_ui():
     """Configure email settings (super admin only)"""
     if st.session_state.user_role != 'super_admin':
@@ -1416,8 +1418,6 @@ def email_settings_ui():
                 else:
                     st.error(f"Failed to send test email: {message}")
 
-# ==================== THEME CUSTOMIZER UI ====================
-
 def theme_customizer_ui():
     """Advanced theme customization with live preview"""
     if st.session_state.user_role != 'super_admin':
@@ -1433,15 +1433,15 @@ def theme_customizer_ui():
     
     with col1:
         st.subheader("🎨 Color Scheme")
-        primary_color = st.color_picker("Primary Color", settings.get('primary_color', '#1E3A8A'))
-        secondary_color = st.color_picker("Secondary Color", settings.get('secondary_color', '#3B82F6'))
-        accent_color = st.color_picker("Accent Color", settings.get('accent_color', '#F59E0B'))
-        background_color = st.color_picker("Background Color", settings.get('background_color', '#FFFFFF'))
-        sidebar_color = st.color_picker("Sidebar Color", settings.get('sidebar_color', '#1E3A8A'))
+        primary_color = st.color_picker("Primary Color", settings.get('primary_color', '#667eea'))
+        secondary_color = st.color_picker("Secondary Color", settings.get('secondary_color', '#764ba2'))
+        accent_color = st.color_picker("Accent Color", settings.get('accent_color', '#f093fb'))
+        background_color = st.color_picker("Background Color", settings.get('background_color', '#f8f9fa'))
+        sidebar_color = st.color_picker("Sidebar Color", settings.get('sidebar_color', '#0f0c29'))
         
         st.subheader("📝 Typography")
-        font_options = ["System Default", "Poppins", "Roboto", "Arial", "Helvetica"]
-        current_font = settings.get('font_family', 'System Default')
+        font_options = ["Inter", "Poppins", "Roboto", "Arial", "Helvetica"]
+        current_font = settings.get('font_family', 'Inter')
         font_index = font_options.index(current_font) if current_font in font_options else 0
         font_family = st.selectbox("Font Family", font_options, index=font_index)
         
@@ -1451,9 +1451,9 @@ def theme_customizer_ui():
         
         st.subheader("📐 Layout")
         try:
-            current_radius = int(settings.get('card_border_radius', '10'))
+            current_radius = int(settings.get('card_border_radius', '12'))
         except:
-            current_radius = 10
+            current_radius = 12
         card_border_radius = st.slider("Card Border Radius", 0, 20, current_radius)
         
         st.subheader("🏷️ Branding")
@@ -1489,36 +1489,17 @@ def theme_customizer_ui():
             <div style="background-color: {sidebar_color}; padding: 15px; border-radius: {card_border_radius}px; margin: 10px 0;">
                 <p style="color: white;">Sidebar navigation preview</p>
             </div>
-            <button style="background-color: {primary_color}; color: white; padding: 10px 20px; border: none; border-radius: 5px;">
+            <button style="background: linear-gradient(135deg, {primary_color}, {secondary_color}); color: white; padding: 10px 20px; border: none; border-radius: 5px;">
                 Button Preview
             </button>
-            <div style="background-color: {secondary_color}; color: white; padding: 10px; margin-top: 10px; border-radius: {card_border_radius}px;">
-                <p>Secondary color preview</p>
+            <div style="background: linear-gradient(135deg, {primary_color}, {secondary_color}); color: white; padding: 10px; margin-top: 10px; border-radius: {card_border_radius}px;">
+                <p>Gradient preview</p>
             </div>
             <div style="margin-top: 10px; font-family: '{font_family}', sans-serif; font-size: {font_size};">
                 <p>Font preview: The quick brown fox jumps over the lazy dog.</p>
             </div>
         </div>
         """, unsafe_allow_html=True)
-        
-        st.subheader("📊 Component Previews")
-        col_a, col_b = st.columns(2)
-        with col_a:
-            st.markdown(f"""
-            <div class="success-box" style="border-left-color: {primary_color};">
-                <strong>Success Message Preview</strong><br>
-                This is how success messages will appear
-            </div>
-            """, unsafe_allow_html=True)
-        with col_b:
-            st.markdown(f"""
-            <div class="info-box" style="border-left-color: {secondary_color};">
-                <strong>Info Message Preview</strong><br>
-                This is how info messages will appear
-            </div>
-            """, unsafe_allow_html=True)
-
-# ==================== ANALYTICS DASHBOARD UI ====================
 
 def analytics_dashboard_ui():
     """Comprehensive analytics dashboard with charts"""
@@ -1577,6 +1558,7 @@ def analytics_dashboard_ui():
                 fig_daily = px.line(x=daily_regs.index, y=daily_regs.values, 
                                     title="Daily Registration Trend",
                                     labels={'x': 'Date', 'y': 'Registrations'})
+                fig_daily.update_layout(hovermode='x unified')
                 st.plotly_chart(fig_daily, use_container_width=True)
         
         with col2:
@@ -1584,7 +1566,9 @@ def analytics_dashboard_ui():
             if len(monthly_regs) > 0:
                 fig_monthly = px.bar(x=monthly_regs.index, y=monthly_regs.values,
                                      title="Monthly Registration Trend",
-                                     labels={'x': 'Month', 'y': 'Registrations'})
+                                     labels={'x': 'Month', 'y': 'Registrations'},
+                                     color=monthly_regs.values,
+                                     color_continuous_scale='blues')
                 st.plotly_chart(fig_monthly, use_container_width=True)
         
         st.subheader("👥 Demographics Analysis")
@@ -1596,26 +1580,48 @@ def analytics_dashboard_ui():
             members_df['age_group'] = pd.cut(members_df['age'], bins=age_bins, labels=age_labels, right=False)
             age_dist = members_df['age_group'].value_counts().sort_index()
             if len(age_dist) > 0:
-                fig_age = px.pie(values=age_dist.values, names=age_dist.index, title="Age Distribution")
+                fig_age = px.pie(values=age_dist.values, names=age_dist.index, title="Age Distribution",
+                                color_discrete_sequence=px.colors.sequential.Blues_r)
                 st.plotly_chart(fig_age, use_container_width=True)
         
         with col2:
-            school_level_dist = members_df['school_level'].value_counts()
-            if len(school_level_dist) > 0:
-                fig_school = px.bar(x=school_level_dist.index, y=school_level_dist.values,
-                                   title="Education Levels")
-                st.plotly_chart(fig_school, use_container_width=True)
+            gender_dist = members_df['gender'].value_counts()
+            if len(gender_dist) > 0:
+                fig_gender = px.pie(values=gender_dist.values, names=gender_dist.index, title="Gender Distribution",
+                                   color_discrete_sequence=['#667eea', '#764ba2'])
+                st.plotly_chart(fig_gender, use_container_width=True)
         
         with col3:
             hall_dist = members_df['yoka_hall'].value_counts().head(10)
             if len(hall_dist) > 0:
                 fig_hall = px.bar(x=hall_dist.index, y=hall_dist.values,
-                                 title="YoKA Hall Distribution")
+                                 title="YoKA Hall Distribution",
+                                 color=hall_dist.values,
+                                 color_continuous_scale='purples')
                 st.plotly_chart(fig_hall, use_container_width=True)
+        
+        # Additional insights
+        st.subheader("📊 Additional Insights")
+        col_a, col_b = st.columns(2)
+        
+        with col_a:
+            school_level_dist = members_df['school_level'].value_counts()
+            if len(school_level_dist) > 0:
+                fig_school = px.bar(x=school_level_dist.index, y=school_level_dist.values,
+                                   title="Education Level Distribution",
+                                   color=school_level_dist.values,
+                                   color_continuous_scale='teal')
+                st.plotly_chart(fig_school, use_container_width=True)
+        
+        with col_b:
+            church_position_count = members_df['has_church_position'].sum()
+            fig_position = px.pie(values=[church_position_count, len(members_df) - church_position_count],
+                                 names=['Has Church Position', 'No Church Position'],
+                                 title="Church Leadership Participation",
+                                 color_discrete_sequence=['#667eea', '#e0e0e0'])
+            st.plotly_chart(fig_position, use_container_width=True)
     else:
         st.info("No data available for analytics. Start registering members to see insights!")
-
-# ==================== BRANCH MANAGEMENT UI ====================
 
 def branch_management_ui():
     """UI for super admin and admin to manage branches"""
@@ -1668,8 +1674,8 @@ def branch_management_ui():
                 branch_code = st.text_input("Branch Code *")
                 location = st.text_input("Location *")
             with col2:
-                                contact_person = st.text_input("Contact Person *")
-                                contact_phone = st.text_input("Contact Phone *", help="Format: 024XXXXXXX")
+                contact_person = st.text_input("Contact Person *")
+                contact_phone = st.text_input("Contact Phone *", help="Format: 024XXXXXXX")
             
             if st.form_submit_button("Create Branch"):
                 if all([branch_name, branch_code, location, contact_person, contact_phone]):
@@ -1685,8 +1691,6 @@ def branch_management_ui():
                             st.error(result)
                 else:
                     st.error("Please fill all required fields")
-
-# ==================== AUDIT LOG UI ====================
 
 def audit_log_ui():
     """View audit logs (super admin only)"""
@@ -1710,8 +1714,6 @@ def audit_log_ui():
     else:
         st.info("No audit logs found")
 
-# ==================== REGISTRATION FORM UI ====================
-
 def registration_form_ui():
     """Registration form for branch executives to add members"""
     st.title("⛪ YoKA Registration Form")
@@ -1733,7 +1735,6 @@ def registration_form_ui():
             profile_picture = st.file_uploader("Profile Picture", type=['jpg', 'jpeg', 'png'])
         
         with col2:
-            # Calculate age from DOB
             if date_of_birth:
                 try:
                     calculated_age = calculate_age_from_dob(date_of_birth)
@@ -1755,7 +1756,7 @@ def registration_form_ui():
             emergency_contact_phone = st.text_input("Emergency Contact Phone", help="Format: 024XXXXXXX")
             medical_conditions = st.text_area("Medical Conditions/Allergies (if any)")
         
-        # School Information - Dynamic based on level
+        # School Information
         st.header("🎓 School Information")
         
         school_level = st.selectbox("Education Level *", ["SHS", "Tertiary", "Graduate", "Other"])
@@ -1828,7 +1829,7 @@ def registration_form_ui():
         
         youth_camps = st.slider("Number of YoKA Youth Camps Attended *", min_value=0, max_value=20, value=0)
         
-        # Church Position/Service Information
+        # Church Position
         st.subheader("🙏 Church Leadership & Service")
         st.caption("Please indicate if you currently hold or have formerly held a church position")
         
@@ -2058,8 +2059,6 @@ def registration_form_ui():
                     if missing_fields:
                         st.error(f"Please fill in the following required fields: {', '.join(missing_fields)}")
 
-# ==================== VIEW MEMBERS UI ====================
-
 def view_members_ui():
     """View members with edit, delete, and bulk operations"""
     st.title("📋 Registered Members")
@@ -2280,10 +2279,8 @@ def view_members_ui():
     else:
         st.info("No members registered yet")
 
-# ==================== USER MANAGEMENT UI ====================
-
 def user_management_ui():
-    """UI for super admin to manage users (including adding other super admins)"""
+    """UI for super admin to manage users"""
     if st.session_state.user_role != 'super_admin':
         st.error("Only Super Admin can access user management")
         return
@@ -2427,18 +2424,54 @@ def main():
     
     # Login Page
     if not st.session_state.logged_in:
-        st.title(f"{favicon} {system_name}")
-        st.markdown("---")
+        st.markdown("""
+        <style>
+            .stApp {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+            .login-container {
+                max-width: 450px;
+                margin: 5rem auto;
+                padding: 2rem;
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                animation: fadeInUp 0.6s ease-out;
+            }
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .login-header {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+        
+        st.markdown(f"""
+        <div class="login-container">
+            <div class="login-header">
+                <div style="font-size: 4rem;">{favicon}</div>
+                <h1>{system_name}</h1>
+                <p>Youth of King Assembly Registration System</p>
+                <p style="color: #666; font-size: 0.9rem;">Kumasi District</p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         
         col1, col2, col3 = st.columns([1,2,1])
         with col2:
-            st.markdown("### Welcome")
-            st.markdown("Please login to access the system")
-            
             with st.form("login_form"):
-                username = st.text_input("Username")
-                password = st.text_input("Password", type="password")
-                submit = st.form_submit_button("Login", use_container_width=True)
+                username = st.text_input("Username", placeholder="Enter your username")
+                password = st.text_input("Password", type="password", placeholder="Enter your password")
+                submit = st.form_submit_button("🔐 Login", use_container_width=True)
                 
                 if submit:
                     user_info = check_login(username, password)
@@ -2450,34 +2483,68 @@ def main():
                         st.session_state.user_branch_id = user_info.get('assigned_branch_id')
                         st.session_state.branch_name = user_info.get('branch_name')
                         
-                        st.success(f"Welcome {user_info['full_name']}!")
+                        st.success(f"Welcome back, {user_info['full_name']}! 🎉")
                         st.rerun()
                     else:
-                        st.error("Invalid username or password")
-            
-            st.info("Contact system administrator for credentials")
+                        st.error("❌ Invalid username or password. Please try again.")
     
     # Main Application after login
     else:
-        st.sidebar.title(f"👋 Welcome, {st.session_state.username}")
-        st.sidebar.write(f"**Role:** {st.session_state.user_role.replace('_', ' ').title()}")
-        if st.session_state.branch_name:
-            st.sidebar.write(f"**Branch:** {st.session_state.branch_name}")
-        st.sidebar.divider()
+        # Modern Sidebar
+        st.sidebar.markdown("""
+        <div style="text-align: center; padding: 1rem 0; border-bottom: 2px solid rgba(255,255,255,0.2); margin-bottom: 1rem;">
+            <div style="font-size: 3rem;">⛪</div>
+            <h2 style="margin: 0.5rem 0 0 0; font-size: 1.2rem;">YoKA Registration</h2>
+            <p style="margin: 0; font-size: 0.8rem; opacity: 0.8;">Kumasi District</p>
+        </div>
+        """, unsafe_allow_html=True)
         
-        st.sidebar.subheader("Navigation")
-        menu_items = ["Registration Form", "View Members", "Analytics Dashboard", "Export Data"]
+        st.sidebar.markdown(f"""
+        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="font-size: 2rem;">👤</div>
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;">{st.session_state.username}</div>
+                    <div style="font-size: 0.75rem; opacity: 0.8;">{st.session_state.user_role.replace('_', ' ').title()}</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Navigation
+        menu_items = ["📝 Registration Form", "👥 View Members", "📊 Analytics Dashboard", "📥 Export Data"]
         
         if st.session_state.user_role in ['super_admin', 'admin']:
-            menu_items.extend(["Import Data", "Branch Management"])
+            menu_items.extend(["📤 Import Data", "🏢 Branch Management"])
         
         if st.session_state.user_role == 'super_admin':
-            menu_items.extend(["User Management", "Email Settings", "Theme Customizer", "Audit Log"])
+            menu_items.extend(["👥 User Management", "📧 Email Settings", "🎨 Theme Customizer", "📜 Audit Log"])
         
-        selected_page = st.sidebar.radio("Go to", menu_items)
+        selected_page = st.sidebar.radio("Navigation", menu_items)
         
-        st.sidebar.divider()
-        if st.sidebar.button("Logout", use_container_width=True):
+        # Sidebar stats
+        conn = sqlite3.connect('kumasi_yoka_registration.db')
+        members_count = pd.read_sql_query("SELECT COUNT(*) as count FROM members", conn).iloc[0]['count']
+        branches_count = pd.read_sql_query("SELECT COUNT(*) as count FROM branches WHERE is_active=1", conn).iloc[0]['count']
+        conn.close()
+        
+        st.sidebar.markdown("---")
+        st.sidebar.markdown(f"""
+        <div style="background: rgba(255,255,255,0.1); padding: 0.75rem; border-radius: 12px; margin: 0.5rem 0;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>📊 Total Members</span>
+                <strong>{members_count}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span>🏢 Active Branches</span>
+                <strong>{branches_count}</strong>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Logout button
+        st.sidebar.markdown("---")
+        if st.sidebar.button("🚪 Logout", use_container_width=True):
             if st.session_state.user_id:
                 log_audit(st.session_state.user_id, st.session_state.username, 'LOGOUT', 'user', 
                          st.session_state.user_id, "User logged out")
@@ -2486,31 +2553,47 @@ def main():
                     del st.session_state[key]
             st.rerun()
         
+        # Modern Header
+        st.markdown(f"""
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <h1 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                       -webkit-background-clip: text; 
+                       -webkit-text-fill-color: transparent; 
+                       margin-bottom: 0;
+                       font-size: 2rem;">
+                {system_name}
+            </h1>
+            <p style="color: #666; margin-top: 0.5rem;">Empowering Youth Through Technology & Faith</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
         # Page content
-        if selected_page == "Registration Form":
+        if selected_page == "📝 Registration Form":
             registration_form_ui()
-        elif selected_page == "View Members":
+        elif selected_page == "👥 View Members":
             view_members_ui()
-        elif selected_page == "Analytics Dashboard":
+        elif selected_page == "📊 Analytics Dashboard":
             analytics_dashboard_ui()
-        elif selected_page == "Export Data":
+        elif selected_page == "📥 Export Data":
             advanced_export_ui()
-        elif selected_page == "Import Data":
+        elif selected_page == "📤 Import Data":
             import_data_ui()
-        elif selected_page == "Branch Management":
+        elif selected_page == "🏢 Branch Management":
             branch_management_ui()
-        elif selected_page == "User Management":
+        elif selected_page == "👥 User Management":
             user_management_ui()
-        elif selected_page == "Email Settings":
+        elif selected_page == "📧 Email Settings":
             email_settings_ui()
-        elif selected_page == "Theme Customizer":
+        elif selected_page == "🎨 Theme Customizer":
             theme_customizer_ui()
-        elif selected_page == "Audit Log":
+        elif selected_page == "📜 Audit Log":
             audit_log_ui()
         
         # Footer
         footer_text = settings.get('footer_text', '© 2024 Kumasi District YoKA. All Rights Reserved.')
-        st.sidebar.divider()
+        st.sidebar.markdown("---")
         st.sidebar.caption(footer_text)
 
 if __name__ == "__main__":
