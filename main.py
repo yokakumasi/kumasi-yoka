@@ -283,7 +283,7 @@ def init_rbac_database():
         ('secondary_color', '#764ba2', 'color', 'Secondary theme color'),
         ('accent_color', '#f093fb', 'color', 'Accent theme color'),
         ('background_color', '#f8f9fa', 'color', 'Background color'),
-        ('sidebar_color', '#0f0c29', 'color', 'Sidebar color'),
+        ('sidebar_color', '#1a1a2e', 'color', 'Sidebar color'),
         ('font_family', 'Inter', 'text', 'Font family'),
         ('font_size', '16px', 'text', 'Base font size'),
         ('card_border_radius', '12', 'text', 'Card border radius'),
@@ -320,116 +320,248 @@ def update_system_setting(setting_key, setting_value, updated_by):
     return True
 
 def apply_custom_styling():
-    """Apply custom styling from system settings"""
-    try:
-        settings_df = get_system_settings()
-        if not settings_df.empty:
-            settings = {row['setting_key']: row['setting_value'] for _, row in settings_df.iterrows()}
-        else:
-            settings = {}
+    """Apply modern, professional styling with animations"""
+    st.markdown("""
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
-        font_family = settings.get('font_family', 'Inter')
-        font_size = settings.get('font_size', '16px')
-        primary_color = settings.get('primary_color', '#667eea')
-        secondary_color = settings.get('secondary_color', '#764ba2')
-        background_color = settings.get('background_color', '#f8f9fa')
-        sidebar_color = settings.get('sidebar_color', '#0f0c29')
-        card_border_radius = settings.get('card_border_radius', '12')
+        /* Global Styles */
+        * {
+            font-family: 'Inter', sans-serif;
+        }
         
-        st.markdown(f"""
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-            
-            * {{
-                font-family: '{font_family}', 'Inter', sans-serif;
-            }}
-            
-            .main .block-container {{
-                padding-top: 1rem;
-                padding-bottom: 0rem;
-                max-width: 1400px;
-            }}
-            
-            #MainMenu {{visibility: hidden;}}
-            footer {{visibility: hidden;}}
-            header {{visibility: hidden;}}
-            
-            ::-webkit-scrollbar {{
-                width: 8px;
-                height: 8px;
-            }}
-            ::-webkit-scrollbar-track {{
-                background: #f1f1f1;
-                border-radius: 10px;
-            }}
-            ::-webkit-scrollbar-thumb {{
-                background: linear-gradient(135deg, {primary_color} 0%, {secondary_color} 100%);
-                border-radius: 10px;
-            }}
-            
-            [data-testid="stSidebar"] {{
-                background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            }}
-            
-            .stButton > button {{
-                background: linear-gradient(135deg, {primary_color} 0%, {secondary_color} 100%);
-                color: white;
-                border: none;
-                border-radius: 10px;
-                padding: 0.6rem 1.2rem;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                width: 100%;
-            }}
-            
-            .stButton > button:hover {{
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(102,126,234,0.4);
-            }}
-            
-            .stForm {{
-                background: white;
-                padding: 1.5rem;
-                border-radius: {card_border_radius}px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            }}
-            
-            .stTextInput > div > div > input,
-            .stTextArea > div > div > textarea,
-            .stSelectbox > div > div > select,
-            .stDateInput > div > div > input {{
-                border-radius: 10px;
-                border: 2px solid #e0e0e0;
-                transition: all 0.3s ease;
-            }}
-            
-            .stDataFrame {{
-                border-radius: {card_border_radius}px;
-                overflow: hidden;
-            }}
-            
-            .badge {{
-                display: inline-block;
-                padding: 4px 8px;
-                border-radius: 12px;
-                font-size: 12px;
-                font-weight: 600;
-            }}
-            
-            .badge-success {{
-                background: #d4edda;
-                color: #155724;
-            }}
-            
-            .badge-warning {{
-                background: #fff3cd;
-                color: #856404;
-            }}
-        </style>
-        """, unsafe_allow_html=True)
-    except:
-        pass
+        /* Main container styling */
+        .main .block-container {
+            padding-top: 1rem;
+            padding-bottom: 0rem;
+            max-width: 1400px;
+        }
+        
+        /* Hide default Streamlit elements */
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+        
+        /* Sidebar styling */
+        [data-testid="stSidebar"] {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Make all text in sidebar white */
+        [data-testid="stSidebar"] * {
+            color: #ffffff !important;
+        }
+        
+        [data-testid="stSidebar"] .stMarkdown {
+            color: #ffffff !important;
+        }
+        
+        [data-testid="stSidebar"] h1, 
+        [data-testid="stSidebar"] h2, 
+        [data-testid="stSidebar"] h3, 
+        [data-testid="stSidebar"] h4,
+        [data-testid="stSidebar"] p,
+        [data-testid="stSidebar"] span,
+        [data-testid="stSidebar"] div,
+        [data-testid="stSidebar"] label {
+            color: #ffffff !important;
+        }
+        
+        /* Navigation button styling in sidebar */
+        .nav-button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(5px);
+            border-color: rgba(255,255,255,0.4);
+        }
+        
+        .nav-button-active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+        }
+        
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+        
+        .nav-text {
+            flex: 1;
+        }
+        
+        .nav-subtitle {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+        
+        /* Button styling */
+        .stButton > button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .stButton > button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        /* Form styling */
+        .stForm {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 1rem;
+        }
+        
+        /* Input fields */
+        .stTextInput > div > div > input,
+        .stTextArea > div > div > textarea,
+        .stSelectbox > div > div > select,
+        .stDateInput > div > div > input {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .stTextInput > div > div > input:focus,
+        .stTextArea > div > div > textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102,126,234,0.2);
+        }
+        
+        /* Headers */
+        h1, h2, h3, h4, h5, h6 {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+        
+        /* Metric cards */
+        [data-testid="stMetric"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem;
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Dataframe styling */
+        .stDataFrame {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        /* Tab styling */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 8px;
+            background: #f5f5f5;
+            padding: 8px;
+            border-radius: 12px;
+        }
+        
+        .stTabs [data-baseweb="tab"] {
+            border-radius: 8px;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .stTabs [aria-selected="true"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+        }
+        
+        /* Alert boxes */
+        .stAlert {
+            border-radius: 12px;
+            border-left: 4px solid;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Expander styling */
+        .streamlit-expanderHeader {
+            background: rgba(102,126,234,0.1);
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        /* Badge styling */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main .block-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
 # ==================== EMAIL FUNCTIONS ====================
 
@@ -1437,7 +1569,7 @@ def theme_customizer_ui():
         secondary_color = st.color_picker("Secondary Color", settings.get('secondary_color', '#764ba2'))
         accent_color = st.color_picker("Accent Color", settings.get('accent_color', '#f093fb'))
         background_color = st.color_picker("Background Color", settings.get('background_color', '#f8f9fa'))
-        sidebar_color = st.color_picker("Sidebar Color", settings.get('sidebar_color', '#0f0c29'))
+        sidebar_color = st.color_picker("Sidebar Color", settings.get('sidebar_color', '#1a1a2e'))
         
         st.subheader("📝 Typography")
         font_options = ["Inter", "Poppins", "Roboto", "Arial", "Helvetica"]
@@ -2402,6 +2534,10 @@ def main():
     # Apply custom styling
     apply_custom_styling()
     
+    # Session state for navigation
+    if 'selected_page' not in st.session_state:
+        st.session_state.selected_page = "📝 Registration Form"
+    
     # Session state initialization
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
@@ -2452,6 +2588,12 @@ def main():
                 text-align: center;
                 margin-bottom: 2rem;
             }
+            .login-header h1 {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 0.5rem;
+            }
         </style>
         """, unsafe_allow_html=True)
         
@@ -2490,54 +2632,68 @@ def main():
     
     # Main Application after login
     else:
-        # Modern Sidebar
+        # Modern Sidebar with Button Navigation
         st.sidebar.markdown("""
         <div style="text-align: center; padding: 1rem 0; border-bottom: 2px solid rgba(255,255,255,0.2); margin-bottom: 1rem;">
             <div style="font-size: 3rem;">⛪</div>
-            <h2 style="margin: 0.5rem 0 0 0; font-size: 1.2rem;">YoKA Registration</h2>
-            <p style="margin: 0; font-size: 0.8rem; opacity: 0.8;">Kumasi District</p>
+            <h2 style="margin: 0.5rem 0 0 0; font-size: 1.2rem; color: white;">YoKA Registration</h2>
+            <p style="margin: 0; font-size: 0.8rem; opacity: 0.9; color: rgba(255,255,255,0.9);">Kumasi District</p>
         </div>
         """, unsafe_allow_html=True)
         
+        # User info card
         st.sidebar.markdown(f"""
-        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+        <div style="background: rgba(255,255,255,0.15); padding: 1rem; border-radius: 12px; margin-bottom: 1rem; backdrop-filter: blur(5px);">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div style="font-size: 2rem;">👤</div>
                 <div>
-                    <div style="font-weight: 600; font-size: 0.9rem;">{st.session_state.username}</div>
-                    <div style="font-size: 0.75rem; opacity: 0.8;">{st.session_state.user_role.replace('_', ' ').title()}</div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: white;">{st.session_state.username}</div>
+                    <div style="font-size: 0.75rem; opacity: 0.9; color: rgba(255,255,255,0.9);">{st.session_state.user_role.replace('_', ' ').title()}</div>
                 </div>
             </div>
         </div>
         """, unsafe_allow_html=True)
         
-        # Navigation
-        menu_items = ["📝 Registration Form", "👥 View Members", "📊 Analytics Dashboard", "📥 Export Data"]
+        # Navigation Buttons
+        st.sidebar.markdown('<p style="color: white; font-weight: 600; margin-bottom: 0.5rem;">📋 Navigation</p>', unsafe_allow_html=True)
+        
+        # Define navigation buttons
+        nav_options = ["📝 Registration Form", "👥 View Members", "📊 Analytics Dashboard", "📥 Export Data"]
         
         if st.session_state.user_role in ['super_admin', 'admin']:
-            menu_items.extend(["📤 Import Data", "🏢 Branch Management"])
+            nav_options.extend(["📤 Import Data", "🏢 Branch Management"])
         
         if st.session_state.user_role == 'super_admin':
-            menu_items.extend(["👥 User Management", "📧 Email Settings", "🎨 Theme Customizer", "📜 Audit Log"])
+            nav_options.extend(["👥 User Management", "📧 Email Settings", "🎨 Theme Customizer", "📜 Audit Log"])
         
-        selected_page = st.sidebar.radio("Navigation", menu_items)
+        # Create buttons for navigation
+        for option in nav_options:
+            button_style = "nav-button-active" if st.session_state.selected_page == option else "nav-button"
+            icon = option.split()[0]
+            text = ' '.join(option.split()[1:]) if len(option.split()) > 1 else option.split()[0]
+            
+            if st.sidebar.button(f"{icon} {text}", key=option, use_container_width=True):
+                st.session_state.selected_page = option
+                st.rerun()
         
-        # Sidebar stats
+        # System stats in sidebar
+        st.sidebar.markdown("---")
+        st.sidebar.markdown('<p style="color: white; font-weight: 600; margin-bottom: 0.5rem;">📊 System Stats</p>', unsafe_allow_html=True)
+        
         conn = sqlite3.connect('kumasi_yoka_registration.db')
         members_count = pd.read_sql_query("SELECT COUNT(*) as count FROM members", conn).iloc[0]['count']
         branches_count = pd.read_sql_query("SELECT COUNT(*) as count FROM branches WHERE is_active=1", conn).iloc[0]['count']
         conn.close()
         
-        st.sidebar.markdown("---")
         st.sidebar.markdown(f"""
         <div style="background: rgba(255,255,255,0.1); padding: 0.75rem; border-radius: 12px; margin: 0.5rem 0;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <span>📊 Total Members</span>
-                <strong>{members_count}</strong>
+                <span style="color: white;">📊 Total Members</span>
+                <strong style="color: white;">{members_count}</strong>
             </div>
             <div style="display: flex; justify-content: space-between;">
-                <span>🏢 Active Branches</span>
-                <strong>{branches_count}</strong>
+                <span style="color: white;">🏢 Active Branches</span>
+                <strong style="color: white;">{branches_count}</strong>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -2548,7 +2704,7 @@ def main():
             if st.session_state.user_id:
                 log_audit(st.session_state.user_id, st.session_state.username, 'LOGOUT', 'user', 
                          st.session_state.user_id, "User logged out")
-            for key in ['logged_in', 'user_id', 'username', 'user_role', 'user_branch_id', 'branch_name']:
+            for key in ['logged_in', 'user_id', 'username', 'user_role', 'user_branch_id', 'branch_name', 'selected_page']:
                 if key in st.session_state:
                     del st.session_state[key]
             st.rerun()
@@ -2569,26 +2725,26 @@ def main():
         
         st.markdown("---")
         
-        # Page content
-        if selected_page == "📝 Registration Form":
+        # Page content based on selected navigation button
+        if st.session_state.selected_page == "📝 Registration Form":
             registration_form_ui()
-        elif selected_page == "👥 View Members":
+        elif st.session_state.selected_page == "👥 View Members":
             view_members_ui()
-        elif selected_page == "📊 Analytics Dashboard":
+        elif st.session_state.selected_page == "📊 Analytics Dashboard":
             analytics_dashboard_ui()
-        elif selected_page == "📥 Export Data":
+        elif st.session_state.selected_page == "📥 Export Data":
             advanced_export_ui()
-        elif selected_page == "📤 Import Data":
+        elif st.session_state.selected_page == "📤 Import Data":
             import_data_ui()
-        elif selected_page == "🏢 Branch Management":
+        elif st.session_state.selected_page == "🏢 Branch Management":
             branch_management_ui()
-        elif selected_page == "👥 User Management":
+        elif st.session_state.selected_page == "👥 User Management":
             user_management_ui()
-        elif selected_page == "📧 Email Settings":
+        elif st.session_state.selected_page == "📧 Email Settings":
             email_settings_ui()
-        elif selected_page == "🎨 Theme Customizer":
+        elif st.session_state.selected_page == "🎨 Theme Customizer":
             theme_customizer_ui()
-        elif selected_page == "📜 Audit Log":
+        elif st.session_state.selected_page == "📜 Audit Log":
             audit_log_ui()
         
         # Footer
