@@ -323,6 +323,32 @@ def update_system_setting(setting_key, setting_value, updated_by):
 def apply_custom_styling():
     st.markdown("""
     <style>
+        /* FORCE SIDEBAR TO BE EXPANDED BY DEFAULT */
+        section[data-testid="stSidebar"] {
+            transform: translateX(0%) !important;
+            display: block !important;
+            width: 300px !important;
+            min-width: 300px !important;
+        }
+        
+        /* Prevent sidebar from collapsing on any screen size */
+        @media (max-width: 992px) {
+            section[data-testid="stSidebar"] {
+                transform: translateX(0%) !important;
+                width: 280px !important;
+                min-width: 280px !important;
+            }
+            button[kind="header"] {
+                display: none !important;
+            }
+        }
+        
+        /* Ensure sidebar content is visible */
+        [data-testid="stSidebarContent"] {
+            display: flex !important;
+            overflow-x: visible !important;
+        }
+        
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * { font-family: 'Inter', sans-serif; }
         .main .block-container {
@@ -441,7 +467,6 @@ def apply_custom_styling():
         }
     </style>
     """, unsafe_allow_html=True)
-
 # ==================== EMAIL FUNCTIONS ====================
 def get_email_settings():
     conn = sqlite3.connect('kumasi_yoka_registration.db')
