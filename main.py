@@ -2490,7 +2490,7 @@ def login_page():
         <div class="login-header">
             <div style="font-size: 4rem;">{favicon}</div>
             <h1>{system_name}</h1>
-            <p>Youth of King Assembly Registration System</p>
+            <p>Youth of Kristo Asafo Registration System</p>
             <p style="color: #666; font-size: 0.9rem;">Kumasi District</p>
         </div>
     </div>
