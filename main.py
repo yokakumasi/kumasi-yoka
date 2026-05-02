@@ -26,8 +26,6 @@ import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.utils import get_column_letter
 
-st.set_option('browser.theme', 'light')
-
 st.set_page_config(
     page_title="Kumasi District YoKA Registration System",
     page_icon="⛪",
@@ -325,6 +323,29 @@ def update_system_setting(setting_key, setting_value, updated_by):
 def apply_custom_styling():
     st.markdown("""
     <style>
+        /* FORCE LIGHT MODE - Override Streamlit's dark mode detection */
+        html, body, [data-testid="stAppViewContainer"], .stApp {
+            background-color: #ffffff !important;
+        }
+        
+        [data-testid="stHeader"] {
+            background-color: #ffffff !important;
+        }
+        
+        [data-testid="stToolbar"] {
+            background-color: #ffffff !important;
+        }
+        
+        /* Main content area */
+        .main > div {
+            background-color: #ffffff !important;
+        }
+        
+        /* Block containers */
+        .stMarkdown, .stTextInput, .stSelectbox, .stTextArea, .stDateInput {
+            background-color: #ffffff !important;
+        }
+        
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * { font-family: 'Inter', sans-serif; }
         .main .block-container {
@@ -385,6 +406,8 @@ def apply_custom_styling():
             border-radius: 10px;
             border: 2px solid #e0e0e0;
             transition: all 0.3s ease;
+            background-color: #ffffff !important;
+            color: #000000 !important;
         }
         .stTextInput > div > div > input:focus,
         .stTextArea > div > div > textarea:focus {
@@ -440,6 +463,21 @@ def apply_custom_styling():
         .badge-warning { background: #fff3cd; color: #856404; }
         @media (max-width: 768px) {
             .main .block-container { padding: 1rem; }
+        }
+        
+        /* Force text colors for light mode */
+        p, span, div, label {
+            color: #000000 !important;
+        }
+        
+        /* Override any dark mode specific elements */
+        @media (prefers-color-scheme: dark) {
+            html, body, .stApp, [data-testid="stAppViewContainer"] {
+                background-color: #ffffff !important;
+            }
+            p, span, div, label {
+                color: #000000 !important;
+            }
         }
     </style>
     """, unsafe_allow_html=True)
@@ -2492,7 +2530,7 @@ def login_page():
         <div class="login-header">
             <div style="font-size: 4rem;">{favicon}</div>
             <h1>{system_name}</h1>
-            <p>Youth of King Assembly Registration System</p>
+            <p>Youth of Kristo Asafo Registration System</p>
             <p style="color: #666; font-size: 0.9rem;">Kumasi District</p>
         </div>
     </div>
