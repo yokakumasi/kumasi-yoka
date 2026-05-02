@@ -26,6 +26,8 @@ import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.utils import get_column_letter
 
+st.set_option('browser.theme', 'light')
+
 st.set_page_config(
     page_title="Kumasi District YoKA Registration System",
     page_icon="⛪",
